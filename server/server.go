@@ -14,6 +14,8 @@ import (
 )
 
 func Run() {
+
+	log.Println(config.MustGetCounterMgoHost(), config.MustGetEventMgoHost())
 	//IDEA is to keep counter in one instance for all backends and shards
 	counterSess, err := mgo.Dial(config.MustGetCounterMgoHost())
 	if err != nil {
@@ -28,6 +30,7 @@ func Run() {
 
 	counterStore := store.NewMgoEventCounterStore(counterSess)
 	eventStore := store.NewMgoEventStore(eventSess)
+	eventStore.CreateIndexesIfNotExists()
 
 	eventsCollector := collector.NewCollector(eventStore, eventStore, counterStore)
 

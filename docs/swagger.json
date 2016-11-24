@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "paths": {
-    "/api/events-collector/{event_type}": {
+    "/api/events-collector/event/{event_type}": {
       "get": {
         "description": "select events",
         "summary": "select events",

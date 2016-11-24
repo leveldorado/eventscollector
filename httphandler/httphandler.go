@@ -53,7 +53,7 @@ type SwaggerEventParam struct {
 	Body model.Event
 }
 
-//swagger:route POST /api/events-collector/{event_type}  postEvent
+//swagger:route POST /api/events-collector/event/{event_type}  postEvent
 //put event
 //
 //put event
@@ -96,7 +96,7 @@ type SwaggerEventsList struct {
 	Body []model.Event
 }
 
-//swagger:route GET /api/events-collector/{event_type}  getEvents
+//swagger:route GET /api/events-collector/event/{event_type}  getEvents
 //select events
 //
 //select events
@@ -189,7 +189,7 @@ func WriteError(cx *gin.Context, err *model.AppError) {
 
 func (h *HTTPHandler) RegisterRoutes(router gin.IRouter) {
 	api := router.Group("/api/events-collector")
-	event := api.Group("/:"+eventTypeParam, func(cx *gin.Context) {
+	event := api.Group("/event/:"+eventTypeParam, func(cx *gin.Context) {
 		//TODO Check access
 	})
 	event.POST("", h.save)
