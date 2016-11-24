@@ -59,18 +59,27 @@ type SelectParam struct {
 
 type Direction int
 
+func (d *Direction) FromString(value string) {
+	if value == "asc" {
+		*d = AscDirection
+	}
+}
+
 const (
 	DescDirection Direction = iota
 	AscDirection
 )
 
 func (p SelectParam) getBsonQuery() bson.M {
+	ts := bson.M{
+		"gt": p.From,
+	}
+	if p.To != 0 {
+		ts["lt"] = p.To
+	}
 	return bson.M{
 		"type": p.Type,
-		"ts": bson.M{
-			"gt": p.From,
-			"lt": p.From,
-		},
+		"ts":   ts,
 	}
 }
 
