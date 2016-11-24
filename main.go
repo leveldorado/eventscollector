@@ -1,5 +1,9 @@
 package main
 
-func main() {
+import (
+	"github.com/osipchuk/eventscollector/server"
+)
 
+func main() {
+	server.Run()
 }

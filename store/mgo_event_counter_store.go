@@ -4,11 +4,20 @@ import (
 	"net/http"
 
 	"github.com/osipchuk/eventscollector/model"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type MgoEventCounterStore struct {
 	*MgoStore
+}
+
+const (
+	EVENT_COUNTER_COLLECTION_NAME = "event_counter"
+)
+
+func NewMgoEventCounterStore(sess *mgo.Session) *MgoEventCounterStore {
+	return &MgoEventCounterStore{NewMgoStore(sess, EVENT_COLLECTOR_DATABASE_NAME, EVENT_COUNTER_COLLECTION_NAME)}
 }
 
 func (s *MgoEventCounterStore) Increase(eventType string) StoreChannel {

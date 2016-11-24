@@ -57,6 +57,12 @@ const (
 	rangeQueryParamName     = "range"
 	intervalQueryParamName  = "interval"
 	directionQueryParamName = "direction"
+	limitQueryParamName     = "limit"
+	offsetQueryParamName    = "offset"
+)
+
+const (
+	maxLimit = 1000
 )
 
 func (h *HTTPHandler) selectEvents(cx *gin.Context) {
@@ -70,7 +76,21 @@ func (h *HTTPHandler) selectEvents(cx *gin.Context) {
 	if !ok {
 		return
 	}
-	p := store.SelectParam{Type: eventType, Direction: direction, From: from, To: to}
+	limit, ok := parseUintAndWriteErrorIfNeed(cx, cx.Query(limitQueryParamName))
+	if !ok {
+		return
+	}
+	if limit > maxLimit {
+		WriteError(cx, model.NewAppError(model.ERR_ID_INVALID_DATA,
+			"limit is greater than max limit "+strconv.Itoa(maxLimit), http.StatusBadRequest, h.selectEvents))
+		return
+	}
+	offset, _ := strconv.ParseUint(offsetQueryParamName, 10, 64)
+	p := store.SelectParam{
+		Type: eventType, Direction: direction,
+		From: from, To: to,
+		Limit: uint(limit), Offset: uint(offset),
+	}
 	resp, err := h.collector.Select(p)
 	if err != nil {
 		WriteError(cx, err)
