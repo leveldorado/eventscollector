@@ -150,9 +150,13 @@ func WriteError(cx *gin.Context, err *model.AppError) {
 }
 
 func (h *HTTPHandler) RegisterRoutes(router gin.IRouter) {
-	event := router.Group("/api/events-collector/:"+eventTypeParam, func(cx *gin.Context) {
+	api := router.Group("/api/events-collector")
+	event := api.Group("/:"+eventTypeParam, func(cx *gin.Context) {
 		//TODO Check access
 	})
 	event.POST("", h.save)
 	event.GET("", h.selectEvents)
+	api.GET("/health", func(cx *gin.Context) {
+		WriteSuccess(cx, nil)
+	})
 }

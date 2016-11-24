@@ -13,17 +13,17 @@ func MustGetPort() string {
 }
 
 func MustGetCounterMgoHost() string {
-	counterMgoHost := os.Getenv("COUNTER_MGO_HOST")
+	counterMgoHost := os.Getenv("COUNTER_MONGODB_HOST")
 	if counterMgoHost == "" {
-		panic("Empty COUNTER_MGO_HOST")
+		panic("Empty COUNTER_MONGODB_HOST")
 	}
 	return counterMgoHost
 }
 
 func MustGetEventMgoHost() string {
-	eventMgoHost := os.Getenv("EVENT_MGO_HOST")
+	eventMgoHost := os.Getenv("EVENT_MONGODB_HOST")
 	if eventMgoHost == "" {
-		panic("Empty EVENT_MGO_HOST")
+		panic("Empty EVENT_MONGODB_HOST")
 	}
 	return eventMgoHost
 }
