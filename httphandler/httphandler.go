@@ -35,6 +35,31 @@ func getEventTypeFromContext(cx *gin.Context) (eventType string, ok bool) {
 	return
 }
 
+//swagger:response ErrorResponse
+type SwaggerErrorResponse struct {
+	//in: body
+	Body model.AppError
+}
+
+//swagger:parameters postEvent getEvents
+type SwaggerEventTypeParam struct {
+	//in: path
+	EventType string `json:"event_type"`
+}
+
+//swagger:parameters postEvent
+type SwaggerEventParam struct {
+	//in: body
+	Body model.Event
+}
+
+//swagger:route POST /api/events-collector/{event_type}  postEvent
+//put event
+//
+//put event
+//    Responses:
+//      200: ""
+//      400: ErrorResponse
 func (h *HTTPHandler) save(cx *gin.Context) {
 	eventType, ok := getEventTypeFromContext(cx)
 	if !ok {
@@ -65,6 +90,19 @@ const (
 	maxLimit = 1000
 )
 
+//swagger:response  EventsList
+type SwaggerEventsList struct {
+	//in: body
+	Body []model.Event
+}
+
+//swagger:route GET /api/events-collector/{event_type}  getEvents
+//select events
+//
+//select events
+//    Responses:
+//      200: EventsList
+//      400: ErrorResponse
 func (h *HTTPHandler) selectEvents(cx *gin.Context) {
 	eventType, ok := getEventTypeFromContext(cx)
 	if !ok {

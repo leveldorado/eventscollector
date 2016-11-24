@@ -44,6 +44,7 @@ func Run() {
 		WriteTimeout: 5 * time.Second,
 		Handler:      router,
 	}
+	log.Println("SERVER Started on: ", config.MustGetPort())
 	err = listener.ListenAndServe()
 	log.Println("SERVER SHUTDOWN")
 	if err != nil {

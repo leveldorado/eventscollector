@@ -1,0 +1,138 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/api/events-collector/{event_type}": {
+      "get": {
+        "description": "select events",
+        "summary": "select events",
+        "operationId": "getEvents",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "EventType",
+            "name": "event_type",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/EventsList"
+          },
+          "400": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "description": "put event",
+        "summary": "put event",
+        "operationId": "postEvent",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "EventType",
+            "name": "event_type",
+            "in": "path"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/%22%22"
+          },
+          "400": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AppError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Code"
+        },
+        "file": {
+          "type": "string",
+          "x-go-name": "File"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "line": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Line"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "method": {
+          "type": "string",
+          "x-go-name": "Method"
+        }
+      },
+      "x-go-package": "github.com/osipchuk/eventscollector/model"
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "x-go-name": "CreatedAt"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "params": {
+          "x-go-name": "Params",
+          "$ref": "#/definitions/Params"
+        },
+        "ts": {
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Ts"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "github.com/osipchuk/eventscollector/model"
+    },
+    "Params": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      },
+      "x-go-package": "github.com/osipchuk/eventscollector/model"
+    }
+  },
+  "responses": {
+    "ErrorResponse": {
+      "schema": {
+        "$ref": "#/definitions/AppError"
+      }
+    },
+    "EventsList": {
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Event"
+        }
+      }
+    }
+  }
+}
